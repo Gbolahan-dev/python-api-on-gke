@@ -1,0 +1,18 @@
+# Local Terraform directories
+.terraform/
+
+# Terraform state files (if you were running locally without a backend)
+*.tfstate
+*.tfstate.backup
+
+# Terraform crash logs
+crash.log
+
+# Terraform tfvars files should not be committed if they contain secrets.
+# It's a good practice to ignore them to prevent accidents.
+terraform.tfvars
+*.auto.tfvars
+
+# Python cache files
+__pycache__/
+*.pyc

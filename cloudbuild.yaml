@@ -1,0 +1,60 @@
+#STEPS
+
+steps: 
+    #STEP 0
+    - id: "Build"
+      name: "gcr.io/cloud-builders/docker"
+      args: ["build", "-t", "us-central1-docker.pkg.dev/${PROJECT_ID}/python-api-repo/python-api:${SHORT_SHA}", "."]
+    #STEP 1
+    - id: "PUSH-IMAGE"
+      name: "gcr.io/cloud-builders/docker"
+      args: ["push",  "us-central1-docker.pkg.dev/${PROJECT_ID}/python-api-repo/python-api:${SHORT_SHA}"]
+      waitFor: ["Build"]
+    
+    #STEP 2
+    - id: "DEPLOY-STAGING"
+      name: "hashicorp/terraform:1.5.7"
+      dir: "infra"
+      entrypoint: "sh"
+      args: 
+        - "- c"
+        - |
+          if [[ "$_TARGET_ENV" == "prod" ]]; then
+             echo "Terraform About to be applied to the prod namespace"
+             terraform init 
+             terraform apply -var="image_tag=${SHORT_SHA}"   -target=helm_release.staging
+              echo ">>> Terraform apply for PRODUCTION GKE complete."
+          else
+             echo "Skipping STEP for ${_TARGET_ENV}"
+          fi
+      waitFor: ["PUSH-IMAGE"]
+
+     #STEP 3
+     - id: 'hold-for-approval'
+       name: 'gcr.io/cloud-builders/gcloud'
+       entrypoint: 'bash'
+       args: ['-c', 'echo "🛑 Waiting for manual approval to deploy to Production."']
+       waitFor: ['deploy-staging']
+
+    #STEP4
+    - id: "DEPLOY-PROD"
+      name: "hashicorp/terraform:1.5.7"
+      dir: "infra"
+      entrypoint: "sh"
+      args:
+        - "- c"
+        - |
+          if [[ "$_TARGET_ENV" == "prod" ]]; then
+             echo "Terraform About to be applied to the prod namespace"
+             terraform init
+             terraform apply -var="image_tag=${SHORT_SHA}"  -target=helm_release.prod
+             echo ">>> Terraform apply for PRODUCTION GKE complete."
+          else
+             echo "Skipping STEP for ${_TARGET_ENV}"
+          fi
+      waitFor: ["hold-for-approval"]
+
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+

@@ -1,0 +1,17 @@
+#steps
+
+steps: 
+  -id: "Install Dependencies"
+   name: "python:3.11-slim"
+   entrypoint: "pip"
+   args: ["install","flake8","-r","requirements.txt"]
+  
+  -id: "Lint"
+   name: "python:3.11-slim"
+   entrypoint: "flake8"
+   args: ["."]
+   waitFor: ["Install Dependencies"]
+
+
+options:
+  logging: CLOUD_LOGGING_ONLY
