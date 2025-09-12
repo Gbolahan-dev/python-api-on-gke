@@ -34,7 +34,7 @@ steps:
       name: 'gcr.io/cloud-builders/gcloud'
       entrypoint: 'bash'
       args: ['-c', 'echo "🛑 Waiting for manual approval to deploy to Production."']
-      waitFor: ['deploy-staging']
+      waitFor: ["DEPLOY-STAGING"]
 
     #STEP4
     - id: "DEPLOY-PROD"
