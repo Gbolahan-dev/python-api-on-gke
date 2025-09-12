@@ -6,6 +6,7 @@ resource "google_container_cluster" "main" {
   location                 = var.zone # This makes it a regional cluster
   remove_default_node_pool = true
   initial_node_count       = 1
+  deletion_protection = false  
 
   network    = module.vpc.network_name
   subnetwork = module.vpc.subnets_names[0]

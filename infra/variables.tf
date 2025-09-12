@@ -44,3 +44,23 @@ variable "zone" {
   type        = string
   default     = "us-central1-a"           # ← where you ran `gcloud container clusters create`
 }
+variable "github_app_installation_id" {
+      description = "The numeric ID for the installed Google Cloud Build GitHub App."
+      type        = number
+}
+# Cloud Build repository resource ID (safe, no leading '-')
+variable "cloudbuild_repo_id" {
+  type    = string
+  default = "python-api-on-gke"
+}
+
+# Actual GitHub repo name (yours starts with a leading '-')
+variable "github_repo_name_on_github" {
+  type    = string
+  default = "-python-api-on-gke"
+}
+variable "cb_runner_sa_email" {
+  description = "Service account email Cloud Build will use"
+  type        = string
+  default     = "python-cb-sa@dotted-aileron-471607-m2.iam.gserviceaccount.com"
+}
