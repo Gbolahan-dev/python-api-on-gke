@@ -3,6 +3,7 @@
 variable "project_id" {
   description = "GCP project ID"
   type        = string
+  nullable    = false # Add this line
 }
 
 variable "region" {
@@ -47,6 +48,7 @@ variable "zone" {
 variable "github_app_installation_id" {
       description = "The numeric ID for the installed Google Cloud Build GitHub App."
       type        = number
+      default     = null
 }
 # Cloud Build repository resource ID (safe, no leading '-')
 variable "cloudbuild_repo_id" {

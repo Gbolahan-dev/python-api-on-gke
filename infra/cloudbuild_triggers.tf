@@ -3,10 +3,15 @@ resource "google_cloudbuildv2_connection" "github_connection" {
   project  = var.project_id
   location = var.region
   name     = "github-connection"
+  
 
-  github_config {
-    app_installation_id = var.github_app_installation_id
+  dynamic "github_config" {
+    for_each = var.github_app_installation_id == null ? [] : [1]
+    content {
+      app_installation_id = var.github_app_installation_id
+    }
   }
+
   depends_on = [google_project_service.apis]
   lifecycle { ignore_changes = [github_config] }
 }
