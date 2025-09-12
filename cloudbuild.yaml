@@ -18,6 +18,9 @@ steps:
     entrypoint: "sh"
     env:
       - TF_IN_AUTOMATION=1
+      - TF_VAR_project_id=${PROJECT_ID}
+      - TF_VAR_github_app_installation_id=${_GITHUB_APP_INSTALL_ID}
+      - TF_VAR_image_tag=${SHORT_SHA}
     args:
       - -c
       - |
@@ -42,6 +45,9 @@ steps:
     entrypoint: "sh"
     env:
       - TF_IN_AUTOMATION=1
+      - TF_VAR_project_id=${PROJECT_ID}
+      - TF_VAR_github_app_installation_id=${_GITHUB_APP_INSTALL_ID}
+      - TF_VAR_image_tag=${SHORT_SHA}
     args:
       - -c
       - |
