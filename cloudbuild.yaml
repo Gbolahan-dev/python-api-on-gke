@@ -17,7 +17,7 @@ steps:
       dir: "infra"
       entrypoint: "sh"
       args: 
-        - "- c"
+        - - c
         - |
           if [[ "$_TARGET_ENV" == "prod" ]]; then
              echo "Terraform About to be applied to the prod namespace"
@@ -42,7 +42,7 @@ steps:
       dir: "infra"
       entrypoint: "sh"
       args:
-        - "- c"
+        - - c
         - |
           if [[ "$_TARGET_ENV" == "prod" ]]; then
              echo "Terraform About to be applied to the prod namespace"
