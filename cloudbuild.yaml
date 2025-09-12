@@ -30,11 +30,11 @@ steps:
       waitFor: ["PUSH-IMAGE"]
 
      #STEP 3
-     - id: 'hold-for-approval'
-       name: 'gcr.io/cloud-builders/gcloud'
-       entrypoint: 'bash'
-       args: ['-c', 'echo "🛑 Waiting for manual approval to deploy to Production."']
-       waitFor: ['deploy-staging']
+    - id: 'hold-for-approval'
+      name: 'gcr.io/cloud-builders/gcloud'
+      entrypoint: 'bash'
+      args: ['-c', 'echo "🛑 Waiting for manual approval to deploy to Production."']
+      waitFor: ['deploy-staging']
 
     #STEP4
     - id: "DEPLOY-PROD"
